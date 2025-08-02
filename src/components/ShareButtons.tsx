@@ -8,13 +8,12 @@ interface ShareButtonsProps {
   images?: string[]
 }
 
-export default function ShareButtons({ postId, content, images }: ShareButtonsProps) {
+export default function ShareButtons({ postId, content }: ShareButtonsProps) {
   const [showCopyMessage, setShowCopyMessage] = useState(false)
 
   // サイトのベースURL（本番環境では実際のドメインに変更）
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'
   const postUrl = `${baseUrl}/post/${postId}`
-  const siteTitle = '新ゆりポスト'
   
   // 投稿内容を適切な長さにトリミング
   const trimContent = (text: string, maxLength: number) => {

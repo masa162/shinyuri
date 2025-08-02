@@ -6,17 +6,18 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 interface PageProps {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 export default async function PostDetailPage({ params }: PageProps) {
   const supabase = createClient()
+  const { id } = await params
   
   // 投稿を取得
   const { data: post, error } = await supabase
     .from('posts')
     .select('*')
-    .eq('id', params.id)
+    .eq('id', id)
     .single()
 
   if (error || !post) {
@@ -90,11 +91,12 @@ export default async function PostDetailPage({ params }: PageProps) {
 // メタデータ生成（SEO対応）
 export async function generateMetadata({ params }: PageProps) {
   const supabase = createClient()
+  const { id } = await params
   
   const { data: post } = await supabase
     .from('posts')
     .select('content, created_at')
-    .eq('id', params.id)
+    .eq('id', id)
     .single()
 
   if (!post) {

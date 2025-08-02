@@ -11,7 +11,7 @@ export async function createPost(formData: FormData) {
   const imagesJson = formData.get('images') as string
   const images = imagesJson ? JSON.parse(imagesJson) : []
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('posts')
     .insert([
       { 
@@ -19,7 +19,6 @@ export async function createPost(formData: FormData) {
         images 
       },
     ])
-    .select()
 
   if (error) {
     // Handle error
@@ -35,7 +34,7 @@ export async function likePost(postId: number): Promise<number> {
   const supabase = createClient()
 
   // いいね数を増加
-  const { data, error } = await supabase
+  const { error } = await supabase
     .rpc('increment_like_count', { post_id: postId })
 
   if (error) {
@@ -90,7 +89,7 @@ export async function likeComment(commentId: number): Promise<number> {
   const supabase = createClient()
 
   // いいね数を増加
-  const { data, error } = await supabase
+  const { error } = await supabase
     .rpc('increment_comment_like_count', { comment_id: commentId })
 
   if (error) {
